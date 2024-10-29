@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.string().nullish(),
     DATABASE_URL: z.string().url(),
+    PACKET_LOG: z.boolean().default(false),
     PORT: z.number().default(8000),
   },
 

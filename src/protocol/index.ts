@@ -1,6 +1,7 @@
 import { ZodArray, ZodObject, ZodType } from "zod";
 import { readString, writeString } from "./common.js";
 import { packetDefinitions } from "./packets.js";
+import { env } from "~/env.js";
 
 export type Packet<T> = {
   className: string;
@@ -19,7 +20,7 @@ export const decodePacket = (
   if (!className) return null;
   const uuid = readString(view, 4);
   const bodyStr = readString(view, 8 + uuid.length);
-  console.log(className + "[" + id + "]: " + bodyStr);
+  if (env.PACKET_LOG) console.log(className + "[" + id + "]: " + bodyStr);
   const packetDefinition = packetDefinitions.find(
     (a) => a.className == className
   );
@@ -52,9 +53,15 @@ export const encodePacket = (
     ).buffer
   );
 
-  console.log(
-    "P->C: " + packet.className + "[" + id + "]: " + JSON.stringify(packet.body)
-  );
+  if (env.PACKET_LOG)
+    console.log(
+      "P->C: " +
+        packet.className +
+        "[" +
+        id +
+        "]: " +
+        JSON.stringify(packet.body)
+    );
 
   view.setInt32(0, parseInt(id as any));
   writeString(view, 4, packet.uuid ?? "");
