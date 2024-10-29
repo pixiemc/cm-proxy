@@ -1,15 +1,14 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "~/db/index.js";
-import { outfits, users } from "~/db/schema.js";
+import { outfits } from "~/db/schema.js";
 import { Handler } from "~/handlers/index.js";
-import { cosmeticIds } from "~/index.js";
-import cosmeticOutfitCosmeticSettingsUpdate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitCosmeticSettingsUpdate.js";
+import cosmeticOutfitEquippedCosmeticsUpdate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitEquippedCosmeticsUpdate.js";
 import responseActionPacket from "~/protocol/packets/response/responseActionPacket.js";
 
 export default {
-  def: cosmeticOutfitCosmeticSettingsUpdate,
+  def: cosmeticOutfitEquippedCosmeticsUpdate,
   async handle(client, packet) {
-    const { a: outfitId, b: cosmeticId, c: settings } = packet.body!;
+    const { a: outfitId, b: slot, c: cosmetic } = packet.body!;
 
     const outfit = (
       await db
@@ -20,23 +19,23 @@ export default {
         )
         .limit(1)
     )[0];
+    if (!outfit) return;
 
-    if (!cosmeticIds.has(cosmeticId)) return;
-
-    (outfit!.cosmeticSettings as any)[cosmeticId] = settings;
+    (outfit!.equippedCosmetics as any)[slot] = cosmetic;
 
     await db
       .update(outfits)
-      .set({ cosmeticSettings: outfit!.cosmeticSettings })
+      .set({ equippedCosmetics: outfit!.equippedCosmetics })
       .where(
         and(eq(outfits.id, outfitId), eq(outfits.ownerId, client.profile.id))
       );
-
     await client.sendClientPacket({
       uuid: packet.uuid,
       className: responseActionPacket.className,
       body: { a: true },
     });
+
+    await client.sendOutfitToSubscribers();
     return { cancelled: true };
   },
-} as Handler<typeof cosmeticOutfitCosmeticSettingsUpdate>;
+} as Handler<typeof cosmeticOutfitEquippedCosmeticsUpdate>;

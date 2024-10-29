@@ -1,9 +1,7 @@
-import { and, eq } from "drizzle-orm";
 import { db } from "~/db/index.js";
-import { outfits, users } from "~/db/schema.js";
+import { outfits } from "~/db/schema.js";
 import { Handler } from "~/handlers/index.js";
 import cosmeticOutfitCreate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitCreate.js";
-import cosmeticOutfitPopulate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitPopulate.js";
 
 export default {
   def: cosmeticOutfitCreate,

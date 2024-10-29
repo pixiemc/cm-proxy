@@ -34,6 +34,17 @@ export const outfits = pgTable("outfits", {
   cosmeticSettings: jsonb("cosmetic_settings"),
   selected: boolean().notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  favoritedAt: bigint("favorited_at", { mode: "number" }),
+  favoritedAt: timestamp("favorited_at"),
   skinId: text("skin_id"),
+});
+
+export const emoteWheels = pgTable("emote_wheels", {
+  id: uuid().notNull().primaryKey().defaultRandom(),
+  ownerId: uuid("owner_id")
+    .notNull()
+    .references(() => users.id),
+  selected: boolean().notNull(),
+  slots: jsonb().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at"),
 });

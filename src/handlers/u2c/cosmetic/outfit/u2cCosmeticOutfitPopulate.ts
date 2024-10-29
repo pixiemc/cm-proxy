@@ -1,6 +1,6 @@
-import { asc, count, desc, eq } from "drizzle-orm";
+import { asc, count, eq } from "drizzle-orm";
 import { db } from "~/db/index.js";
-import { outfits, users } from "~/db/schema.js";
+import { outfits } from "~/db/schema.js";
 import { Handler } from "~/handlers/index.js";
 import cosmeticOutfitPopulate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitPopulate.js";
 
@@ -23,7 +23,7 @@ export default {
           equippedCosmetics: o.d,
           cosmeticSettings: o.e,
           selected: o.f,
-          favoritedAt: o.h,
+          favoritedAt: o.h ? new Date(o.h) : null,
           skinId: o.j,
         }))
       );
@@ -43,7 +43,7 @@ export default {
       e: o.cosmeticSettings as any,
       f: o.selected,
       g: o.createdAt.getTime(),
-      h: o.favoritedAt,
+      h: o.favoritedAt?.getTime(),
       j: o.skinId,
     }));
     return packet;

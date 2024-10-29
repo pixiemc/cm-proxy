@@ -1,16 +1,19 @@
 import { ServerWebSocket } from "bun";
-import { WebSocketData } from "./index.js";
+import { and, eq, inArray } from "drizzle-orm";
+import { Redis } from "ioredis";
 import { db } from "./db/index.js";
 import { outfits, users } from "./db/schema.js";
-import { decodePacket, encodePacket, Packet } from "./protocol/index.js";
-import { reverseObj } from "./utils/generic.js";
-import registerPacketTypeId from "./protocol/packets/connection/registerPacketTypeId.js";
+import { env } from "./env.js";
 import {
   clientToUpstreamHandlers,
   upstreamToClientHandlers,
 } from "./handlers/index.js";
-import { and, count, eq, inArray } from "drizzle-orm";
+import { WebSocketData } from "./index.js";
+import { decodePacket, encodePacket, Packet } from "./protocol/index.js";
+import registerPacketTypeId from "./protocol/packets/connection/registerPacketTypeId.js";
 import cosmeticOutfitPopulate from "./protocol/packets/cosmetic/outfit/cosmeticOutfitPopulate.js";
+import cosmeticOutfitSelectedResponse from "./protocol/packets/cosmetic/outfit/cosmeticOutfitSelectedResponse.js";
+import { reverseObj } from "./utils/generic.js";
 export class Client {
   profile: {
     id: string;
@@ -25,6 +28,10 @@ export class Client {
     0: "connection.ConnectionRegisterPacketTypeIdPacket",
   };
   startupPackets: Buffer[] = [];
+  subscribedTo = new Set<string>();
+  #redisSubscriber = new Redis(env.REDIS_URL);
+  #redisPublisher = new Redis(env.REDIS_URL);
+
   initialized = false;
 
   constructor(profile: { id: string; name: string }, upstreamWs: WebSocket) {
@@ -54,6 +61,52 @@ export class Client {
     for (const packet of this.startupPackets) {
       await this.onUpstreamMessage(packet);
     }
+
+    this.#redisSubscriber.on("message", async (channel, msg) => {
+      await this.sendClientPacket(JSON.parse(msg));
+    });
+  }
+
+  async subscribe(id: string) {
+    if (this.subscribedTo.has(id)) return;
+    await this.#redisSubscriber.subscribe("player:" + id);
+    this.subscribedTo.add(id);
+  }
+
+  async unsubscribe(id: string) {
+    if (!this.subscribedTo.has(id)) return;
+    this.subscribedTo.delete(id);
+    await this.#redisSubscriber.unsubscribe("player:" + id);
+  }
+
+  async sendOutfitToSubscribers() {
+    const selectedOutfit = (
+      await db
+        .select()
+        .from(outfits)
+        .where(
+          and(eq(outfits.ownerId, this.profile.id), eq(outfits.selected, true))
+        )
+    )[0];
+
+    if (!selectedOutfit) return;
+
+    await this.sendToSubscribed({
+      className: cosmeticOutfitSelectedResponse.className,
+      body: {
+        uuid: this.profile.id,
+        cosmeticSettings: selectedOutfit.cosmeticSettings,
+        equippedCosmetics: selectedOutfit.equippedCosmetics,
+        skinTexture: selectedOutfit.skinTexture,
+      },
+    });
+  }
+
+  async sendToSubscribed(packet: Packet<any>) {
+    this.#redisPublisher.publish(
+      "player:" + this.profile.id,
+      JSON.stringify(packet)
+    );
   }
 
   async selectOutfit(newOutfit: string) {
@@ -70,6 +123,8 @@ export class Client {
       .where(
         and(eq(outfits.id, newOutfit), eq(outfits.ownerId, this.profile.id))
       );
+
+    await this.sendOutfitToSubscribers();
   }
 
   async resendOutfits(

@@ -39,7 +39,13 @@ export const cosmeticOutfit = z.object({
   h: z.number().nullish(), // favorited at,
   j: z.string().nullish(), // skin id
 });
-
+export const emoteWheel = z.object({
+  a: z.string(), // id
+  b: z.boolean(), // selected
+  c: z.record(z.string(), z.string()), // slots
+  d: z.number(), // created at
+  e: z.number().nullish(), // updated at
+});
 function clamp(num: number, min: number, max: number) {
   return num <= min ? min : num >= max ? max : num;
 }

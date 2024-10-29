@@ -1,6 +1,4 @@
 import { Client } from "./client.js";
-import { db } from "./db/index.js";
-import { users } from "./db/schema.js";
 import { env } from "./env.js";
 import { generalHttpClient } from "./utils/http.js";
 
@@ -28,6 +26,11 @@ Bun.serve<WebSocketData>({
     const profile: { id: string; name: string } = await generalHttpClient
       .get("https://mowojang.matdoes.dev/" + username)
       .json();
+
+    profile.id = profile.id.replace(
+      /(.{8})(.{4})(.{4})(.{4})(.{12})/,
+      "$1-$2-$3-$4-$5"
+    );
 
     const upstreamWs = new WebSocket("wss://beta.connect.essential.gg/v1", {
       // @ts-ignore - bun supports headers with websockets

@@ -1,7 +1,6 @@
-import { ZodArray, ZodObject, ZodType } from "zod";
+import { env } from "~/env.js";
 import { readString, writeString } from "./common.js";
 import { packetDefinitions } from "./packets.js";
-import { env } from "~/env.js";
 
 export type Packet<T> = {
   className: string;
