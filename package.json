@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "cm-proxy",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
