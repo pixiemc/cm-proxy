@@ -20,6 +20,7 @@ export default {
           ownerId: client.profile.id,
           selected: o.b,
           slots: o.c,
+          createdAt: new Date(o.d),
         }))
       );
     }
@@ -35,7 +36,6 @@ export default {
       b: o.selected,
       c: o.slots as any,
       d: o.createdAt.getTime(),
-      e: o.updatedAt?.getTime(),
     }));
     return packet;
   },

@@ -4,6 +4,7 @@ import { Packet } from "~/protocol/index.js";
 import { PacketDefinition } from "~/protocol/packets.js";
 import c2uRegisterPacketTypeIdHandler from "./c2u/connection/c2uRegisterPacketTypeIdHandler.js";
 import c2uCosmeticAnimationTrigger from "./c2u/cosmetic/c2uCosmeticAnimationTrigger.js";
+import c2uCosmeticEmoteWheelSelect from "./c2u/cosmetic/emote/c2uCosmeticEmoteWheelSelect.js";
 import c2uCosmeticEmoteWheelUpdate from "./c2u/cosmetic/emote/c2uCosmeticEmoteWheelUpdate.js";
 import c2uCosmeticOutfitCosmeticSettingsUpdate from "./c2u/cosmetic/outfit/c2uCosmeticOutfitCosmeticSettingsUpdate.js";
 import c2uCosmeticOutfitCreate from "./c2u/cosmetic/outfit/c2uCosmeticOutfitCreate.js";
@@ -43,6 +44,7 @@ export const clientToUpstreamHandlers = [
   c2uCosmeticOutfitNameUpdate,
   c2uCosmeticOutfitUpdateFavoriteState,
   c2uCosmeticEmoteWheelUpdate,
+  c2uCosmeticEmoteWheelSelect,
 ];
 export const upstreamToClientHandlers = [
   u2cRegisterPacketTypeIdHandler,

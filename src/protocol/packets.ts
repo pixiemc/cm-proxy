@@ -19,6 +19,7 @@ import responseActionPacket from "./packets/response/responseActionPacket.js";
 import subscriptionUpdatePacket from "./packets/subscription/subscriptionUpdatePacket.js";
 import telemetry from "./packets/telemetry/telemetry.js";
 import cosmeticEmoteWheelUpdate from "./packets/cosmetic/emote/cosmeticEmoteWheelUpdate.js";
+import cosmeticEmoteWheelSelect from "./packets/cosmetic/emote/cosmeticEmoteWheelSelect.js";
 
 export type PacketDefinition<Schema extends ZodType<any, any, any>> = {
   className: string;
@@ -46,5 +47,6 @@ export const packetDefinitions: PacketDefinition<ZodObject<any, any, any>>[] = [
   cosmeticOutfitUpdateFavoriteState,
   cosmeticOutfitSelectedResponse,
   cosmeticEmoteWheelPopulate,
-  cosmeticEmoteWheelUpdate
+  cosmeticEmoteWheelUpdate,
+  cosmeticEmoteWheelSelect
 ];
