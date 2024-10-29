@@ -5,8 +5,6 @@ import cosmeticsUserUnlocked from "~/protocol/packets/cosmetic/cosmeticsUserUnlo
 export default {
   def: cosmeticsUserUnlocked,
   async handle(client, packet) {
-    console.log("got funny cosmetics unlocked packet");
-
     for (const cosmeticId of cosmeticIds) {
       packet.body!.d[cosmeticId] = {
         gifted_by: null,

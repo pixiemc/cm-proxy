@@ -20,7 +20,8 @@ export const decodePacket = (
   if (!className) return null;
   const uuid = readString(view, 4);
   const bodyStr = readString(view, 8 + uuid.length);
-  if (env.PACKET_LOG) console.log(className + "[" + id + "]: " + bodyStr);
+  if (env.PACKET_LOG == "yes")
+    console.log(className + "[" + id + "]: " + bodyStr);
   const packetDefinition = packetDefinitions.find(
     (a) => a.className == className
   );
@@ -53,7 +54,7 @@ export const encodePacket = (
     ).buffer
   );
 
-  if (env.PACKET_LOG)
+  if (env.PACKET_LOG == "yes")
     console.log(
       "P->C: " +
         packet.className +

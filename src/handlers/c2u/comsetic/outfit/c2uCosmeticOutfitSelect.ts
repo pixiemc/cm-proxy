@@ -10,7 +10,6 @@ export default {
   def: cosmeticOutfitSelect,
   async handle(client, packet) {
     const { a: id } = packet.body!;
-    console.log("Selecting " + id);
 
     await client.selectOutfit(id);
     await client.sendClientPacket({

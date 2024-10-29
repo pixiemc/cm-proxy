@@ -9,7 +9,6 @@ export default {
   def: cosmeticOutfitSelectedResponse,
   async handle(client, packet) {
     const { uuid } = packet.body!;
-    console.log("selected response packet");
     const selectedOutfit = (
       await db
         .select()
