@@ -23,7 +23,7 @@ export default {
           cosmeticSettings,
           selected: false,
         })
-        .returning()
+        .returning({ id: outfits.id })
     )[0]!;
 
     await client.resendOutfits(packet.uuid, [newOutfit.id]);

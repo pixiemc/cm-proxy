@@ -3,7 +3,6 @@ import { db } from "~/db/index.js";
 import { outfits } from "~/db/schema.js";
 import { Handler } from "~/handlers/index.js";
 import cosmeticOutfitEquippedCosmeticsUpdate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitEquippedCosmeticsUpdate.js";
-import responseActionPacket from "~/protocol/packets/response/responseActionPacket.js";
 
 export default {
   def: cosmeticOutfitEquippedCosmeticsUpdate,
@@ -19,7 +18,8 @@ export default {
         )
         .limit(1)
     )[0];
-    if (!outfit) return;
+    if (!outfit)
+      return await client.sendResponse(packet, false, "Outfit not found");
 
     (outfit!.equippedCosmetics as any)[slot] = cosmetic;
 
@@ -29,11 +29,7 @@ export default {
       .where(
         and(eq(outfits.id, outfitId), eq(outfits.ownerId, client.profile.id))
       );
-    await client.sendClientPacket({
-      uuid: packet.uuid,
-      className: responseActionPacket.className,
-      body: { a: true },
-    });
+    await client.sendResponse(packet);
 
     await client.sendOutfitToSubscribers();
     return { cancelled: true };

@@ -46,6 +46,7 @@ export const emoteWheel = z.object({
   d: z.number(), // created at
   e: z.number().nullish(), // updated at
 });
+
 function clamp(num: number, min: number, max: number) {
   return num <= min ? min : num >= max ? max : num;
 }

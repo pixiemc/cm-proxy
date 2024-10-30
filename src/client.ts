@@ -13,6 +13,7 @@ import { decodePacket, encodePacket, Packet } from "./protocol/index.js";
 import registerPacketTypeId from "./protocol/packets/connection/registerPacketTypeId.js";
 import cosmeticOutfitPopulate from "./protocol/packets/cosmetic/outfit/cosmeticOutfitPopulate.js";
 import cosmeticOutfitSelectedResponse from "./protocol/packets/cosmetic/outfit/cosmeticOutfitSelectedResponse.js";
+import responseActionPacket from "./protocol/packets/response/responseActionPacket.js";
 import { reverseObj } from "./utils/generic.js";
 export class Client {
   profile: {
@@ -107,6 +108,18 @@ export class Client {
       "player:" + this.profile.id,
       JSON.stringify(packet)
     );
+  }
+
+  async sendResponse(
+    packet: Packet<any>,
+    success: boolean = true,
+    error: string | null = null
+  ) {
+    this.sendClientPacket({
+      uuid: packet.uuid,
+      className: responseActionPacket.className,
+      body: { a: success, b: error },
+    });
   }
 
   async selectOutfit(newOutfit: string) {
@@ -241,8 +254,8 @@ export class Client {
       await this.sendClientPacket({
         className: registerPacketTypeId.className,
         body: {
-          className: packet.className,
-          packetId: id,
+          a: packet.className,
+          b: id,
         },
       });
       this.clientPackets[id] = packet.className;

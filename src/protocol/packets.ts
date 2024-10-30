@@ -4,6 +4,8 @@ import clientCosmeticAnimationTrigger from "./packets/cosmetic/clientCosmeticAni
 import cosmeticsPopulate from "./packets/cosmetic/cosmeticsPopulate.js";
 import cosmeticsUserUnlocked from "./packets/cosmetic/cosmeticsUserUnlocked.js";
 import cosmeticEmoteWheelPopulate from "./packets/cosmetic/emote/cosmeticEmoteWheelPopulate.js";
+import cosmeticEmoteWheelSelect from "./packets/cosmetic/emote/cosmeticEmoteWheelSelect.js";
+import cosmeticEmoteWheelUpdate from "./packets/cosmetic/emote/cosmeticEmoteWheelUpdate.js";
 import cosmeticOutfitCosmeticSettingsUpdate from "./packets/cosmetic/outfit/cosmeticOutfitCosmeticSettingsUpdate.js";
 import cosmeticOutfitCreate from "./packets/cosmetic/outfit/cosmeticOutfitCreate.js";
 import cosmeticOutfitDelete from "./packets/cosmetic/outfit/cosmeticOutfitDelete.js";
@@ -18,8 +20,6 @@ import modsAnnounce from "./packets/mod/modsAnnounce.js";
 import responseActionPacket from "./packets/response/responseActionPacket.js";
 import subscriptionUpdatePacket from "./packets/subscription/subscriptionUpdatePacket.js";
 import telemetry from "./packets/telemetry/telemetry.js";
-import cosmeticEmoteWheelUpdate from "./packets/cosmetic/emote/cosmeticEmoteWheelUpdate.js";
-import cosmeticEmoteWheelSelect from "./packets/cosmetic/emote/cosmeticEmoteWheelSelect.js";
 
 export type PacketDefinition<Schema extends ZodType<any, any, any>> = {
   className: string;
@@ -48,5 +48,5 @@ export const packetDefinitions: PacketDefinition<ZodObject<any, any, any>>[] = [
   cosmeticOutfitSelectedResponse,
   cosmeticEmoteWheelPopulate,
   cosmeticEmoteWheelUpdate,
-  cosmeticEmoteWheelSelect
+  cosmeticEmoteWheelSelect,
 ];

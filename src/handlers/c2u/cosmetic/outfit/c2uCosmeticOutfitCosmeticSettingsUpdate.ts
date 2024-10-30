@@ -4,7 +4,6 @@ import { outfits } from "~/db/schema.js";
 import { Handler } from "~/handlers/index.js";
 import { cosmeticIds } from "~/index.js";
 import cosmeticOutfitCosmeticSettingsUpdate from "~/protocol/packets/cosmetic/outfit/cosmeticOutfitCosmeticSettingsUpdate.js";
-import responseActionPacket from "~/protocol/packets/response/responseActionPacket.js";
 
 export default {
   def: cosmeticOutfitCosmeticSettingsUpdate,
@@ -21,7 +20,10 @@ export default {
         .limit(1)
     )[0];
 
-    if (!cosmeticIds.has(cosmeticId)) return;
+    if (!outfit)
+      return await client.sendResponse(packet, false, "Outfit not found");
+    if (!cosmeticIds.has(cosmeticId))
+      return await client.sendResponse(packet, false, "Invalid cosmetic id");
 
     (outfit!.cosmeticSettings as any)[cosmeticId] = settings;
 
@@ -32,11 +34,7 @@ export default {
         and(eq(outfits.id, outfitId), eq(outfits.ownerId, client.profile.id))
       );
 
-    await client.sendClientPacket({
-      uuid: packet.uuid,
-      className: responseActionPacket.className,
-      body: { a: true },
-    });
+    await client.sendResponse(packet);
 
     await client.sendOutfitToSubscribers();
 
