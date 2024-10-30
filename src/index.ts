@@ -32,7 +32,7 @@ Bun.serve<WebSocketData>({
       "$1-$2-$3-$4-$5"
     );
 
-    const upstreamWs = new WebSocket("wss://beta.connect.essential.gg/v1", {
+    const upstreamWs = new WebSocket("wss://connect.essential.gg/v1", {
       // @ts-ignore - bun supports headers with websockets
       headers: {
         "essential-max-protocol-version": req.headers.get(
