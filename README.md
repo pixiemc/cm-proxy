@@ -1,15 +1,3 @@
-# api
+# cm-proxy
 
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run src/index.ts
-```
-
-This project was created using `bun init` in bun v1.1.26. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+This is a proxy server that sits inbetween the [Essential Mod](https://essential.gg) and the Essential content manager to disable telemetry and data collection, alongside unlocking all cosmetics for free
