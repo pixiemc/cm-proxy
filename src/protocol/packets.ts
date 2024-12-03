@@ -17,6 +17,7 @@ import cosmeticOutfitSelectedResponse from "./packets/cosmetic/outfit/cosmeticOu
 import cosmeticOutfitUpdateFavoriteState from "./packets/cosmetic/outfit/cosmeticOutfitUpdateFavoriteState.js";
 import serverCosmeticAnimationTrigger from "./packets/cosmetic/serverCosmeticAnimationTrigger.js";
 import modsAnnounce from "./packets/mod/modsAnnounce.js";
+import noticesPopulate from "./packets/notices/noticesPopulate.js";
 import responseActionPacket from "./packets/response/responseActionPacket.js";
 import subscriptionUpdatePacket from "./packets/subscription/subscriptionUpdatePacket.js";
 import telemetry from "./packets/telemetry/telemetry.js";
@@ -49,4 +50,6 @@ export const packetDefinitions: PacketDefinition<ZodObject<any, any, any>>[] = [
   cosmeticEmoteWheelPopulate,
   cosmeticEmoteWheelUpdate,
   cosmeticEmoteWheelSelect,
+
+  noticesPopulate,
 ];

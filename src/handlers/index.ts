@@ -22,6 +22,7 @@ import u2cCosmeticOutfitPopulate from "./u2c/cosmetic/outfit/u2cCosmeticOutfitPo
 import u2cCosmeticOutfitSelectedResponse from "./u2c/cosmetic/outfit/u2cCosmeticOutfitSelectedResponse.js";
 import u2cCosmeticsPopulateHandler from "./u2c/cosmetic/u2cCosmeticsPopulateHandler.js";
 import u2cCosmeticsUserUnlockedHandler from "./u2c/cosmetic/u2cCosmeticsUserUnlockedHandler.js";
+import u2cNoticesPopulateHandler from "./u2c/notices/u2cNoticesPopulateHandler.js";
 export type Handler<T extends PacketDefinition<any>> = {
   def: T;
   handle: (
@@ -53,4 +54,5 @@ export const upstreamToClientHandlers = [
   u2cCosmeticOutfitPopulate,
   u2cCosmeticOutfitSelectedResponse,
   u2cCosmeticEmoteWheelPopulate,
+  u2cNoticesPopulateHandler,
 ];

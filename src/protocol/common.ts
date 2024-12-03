@@ -46,6 +46,22 @@ export const emoteWheel = z.object({
   d: z.number(), // created at
   e: z.number().nullish(), // updated at
 });
+export const notice = z.object({
+  a: z.string(), // id
+  b: z.enum([
+    "NEW_BANNER",
+    "SALE",
+    "FRIEND_REQUEST_TOAST",
+    "FRIEND_REQUEST_NEW_INDICATOR",
+    "DISMISSIBLE_TOAST",
+    "WARDROBE_BANNER",
+    "GIFTED_COSMETIC_TOAST",
+  ]), // type
+  c: z.record(z.string(), z.any()), // metadata
+  d: z.boolean(), // dismissible
+  e: z.number().nullish(), // active after
+  f: z.number().nullish(), // expires at
+});
 
 function clamp(num: number, min: number, max: number) {
   return num <= min ? min : num >= max ? max : num;
