@@ -12,6 +12,7 @@ import c2uCosmeticOutfitDelete from "./c2u/cosmetic/outfit/c2uCosmeticOutfitDele
 import c2uCosmeticOutfitEquippedCosmeticsUpdate from "./c2u/cosmetic/outfit/c2uCosmeticOutfitEquippedCosmeticsUpdate.js";
 import c2uCosmeticOutfitNameUpdate from "./c2u/cosmetic/outfit/c2uCosmeticOutfitNameUpdate.js";
 import c2uCosmeticOutfitSelect from "./c2u/cosmetic/outfit/c2uCosmeticOutfitSelect.js";
+import c2uCosmeticOutfitSkinUpdate from "./c2u/cosmetic/outfit/c2uCosmeticOutfitSkinUpdate.js";
 import c2uCosmeticOutfitUpdateFavoriteState from "./c2u/cosmetic/outfit/c2uCosmeticOutfitUpdateFavoriteState.js";
 import c2uModsAnnounceHandler from "./c2u/mod/c2uModsAnnounceHandler.js";
 import c2uSubscriptionUpdatePacket from "./c2u/subscription/c2uSubscriptionUpdatePacket.js";
@@ -43,6 +44,8 @@ export const clientToUpstreamHandlers = [
   c2uCosmeticOutfitCreate,
   c2uCosmeticOutfitSelect,
   c2uCosmeticOutfitNameUpdate,
+  c2uCosmeticOutfitSkinUpdate,
+
   c2uCosmeticOutfitUpdateFavoriteState,
   c2uCosmeticEmoteWheelUpdate,
   c2uCosmeticEmoteWheelSelect,
