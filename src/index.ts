@@ -25,9 +25,12 @@ Bun.serve<WebSocketData>({
     }
 
     const username = userPassRaw.split(":")[0];
+    console.log(username + " sent us a connect request!")
     const profile: { id: string; name: string } = await generalHttpClient
       .get("https://mowojang.matdoes.dev/" + username)
       .json();
+
+    console.log(username + " (" + profile.id + ") is connecting")
 
     profile.id = profile.id.replace(
       /(.{8})(.{4})(.{4})(.{4})(.{12})/,
