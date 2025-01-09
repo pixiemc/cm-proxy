@@ -2,8 +2,7 @@ import { Client } from "./client.js";
 import { env } from "./env.js";
 import { generalHttpClient } from "./utils/http.js";
 import { WebSocket } from "ws";
-import { ProxyAgent } from "proxy-agent";
-import { HttpsProxyAgent } from "https-proxy-agent";
+import { SocksProxyAgent } from "socks-proxy-agent";
 
 export let cosmeticIds = new Set<string>();
 
@@ -47,7 +46,7 @@ Bun.serve<WebSocketData>({
         authorization: req.headers.get("authorization"),
         "user-agent": req.headers.get("user-agent"),
       },
-      agent: env.WS_PROXY && new HttpsProxyAgent(env.WS_PROXY)
+      agent: env.WS_PROXY && new SocksProxyAgent(env.WS_PROXY)
     });
     const client = new Client(profile, upstreamWs);
 
