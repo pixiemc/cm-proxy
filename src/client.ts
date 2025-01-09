@@ -15,6 +15,8 @@ import cosmeticOutfitPopulate from "./protocol/packets/cosmetic/outfit/cosmeticO
 import cosmeticOutfitSelectedResponse from "./protocol/packets/cosmetic/outfit/cosmeticOutfitSelectedResponse.js";
 import responseActionPacket from "./protocol/packets/response/responseActionPacket.js";
 import { reverseObj } from "./utils/generic.js";
+import { WebSocket } from "ws";
+
 export class Client {
   profile: {
     id: string;
@@ -52,13 +54,12 @@ export class Client {
         set: { username: this.profile.name },
       });
 
-    this.initialized = true;
-
     this.#upstreamWs.addEventListener("message", async (event) => {
       if (!(event.data instanceof Buffer)) return;
-
       await this.onUpstreamMessage(event.data);
     });
+    this.initialized = true;
+
     for (const packet of this.startupPackets) {
       await this.onUpstreamMessage(packet);
     }

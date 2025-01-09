@@ -1,6 +1,9 @@
 import { Client } from "./client.js";
 import { env } from "./env.js";
 import { generalHttpClient } from "./utils/http.js";
+import { WebSocket } from "ws";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { ProxyAgent } from "proxy-agent";
 
 export let cosmeticIds = new Set<string>();
 
@@ -41,6 +44,7 @@ Bun.serve<WebSocketData>({
         authorization: req.headers.get("authorization"),
         "user-agent": req.headers.get("user-agent"),
       },
+      agent: new ProxyAgent()
     });
     const client = new Client(profile, upstreamWs);
 
