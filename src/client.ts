@@ -276,6 +276,11 @@ export class Client {
     return true;
   }
 
+  async close() {
+    await this.#redisPublisher.quit()
+    await this.#redisSubscriber.quit()
+  }
+
   getNextPacketId(packetMap: Record<number, string>) {
     const ids = Object.keys(packetMap).map((a) => parseInt(a));
     return ids[ids.length - 1]! + 1;

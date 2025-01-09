@@ -78,5 +78,7 @@ Bun.serve<WebSocketData>({
       if (message instanceof Buffer)
         await ws.data.client.onClientMessage(message);
     },
+    close: async (ws) => ws.data.client.close(),
+    
   }, // handlers
 });
