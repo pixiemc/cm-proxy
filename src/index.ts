@@ -55,6 +55,7 @@ Bun.serve<WebSocketData>({
       if (client.initialized) return;
       client.startupPackets.push(event.data);
     });
+    upstreamWs.addEventListener("close", console.log)
     upstreamWs.addEventListener("error", console.log)
 
     await new Promise((resolve) =>
