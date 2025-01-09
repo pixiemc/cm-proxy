@@ -2,7 +2,6 @@ import { Client } from "./client.js";
 import { env } from "./env.js";
 import { generalHttpClient } from "./utils/http.js";
 import { WebSocket } from "ws";
-import { HttpsProxyAgent } from "https-proxy-agent";
 import { ProxyAgent } from "proxy-agent";
 
 export let cosmeticIds = new Set<string>();
@@ -82,3 +81,5 @@ Bun.serve<WebSocketData>({
     
   }, // handlers
 });
+
+console.log("Listening on " + env.PORT)
