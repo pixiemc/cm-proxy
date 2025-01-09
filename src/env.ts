@@ -8,6 +8,7 @@ export const env = createEnv({
     REDIS_URL: z.string().url(),
     PACKET_LOG: z.enum(["yes", "no"]).nullish(),
     PORT: z.number().default(8000),
+    WS_PROXY: z.string().url().nullish()
   },
 
   /**
