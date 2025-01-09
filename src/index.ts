@@ -25,12 +25,12 @@ Bun.serve<WebSocketData>({
     }
 
     const username = userPassRaw.split(":")[0];
-    console.log(username + " sent us a connect request!")
+    console.log(username + " sent us a connect request!");
     const profile: { id: string; name: string } = await generalHttpClient
       .get("https://mowojang.matdoes.dev/" + username)
       .json();
 
-    console.log(username + " (" + profile.id + ") is connecting")
+    console.log(username + " (" + profile.id + ") is connecting");
 
     profile.id = profile.id.replace(
       /(.{8})(.{4})(.{4})(.{4})(.{12})/,
@@ -46,7 +46,7 @@ Bun.serve<WebSocketData>({
         authorization: req.headers.get("authorization"),
         "user-agent": req.headers.get("user-agent"),
       },
-      agent: env.WS_PROXY && new SocksProxyAgent(env.WS_PROXY)
+      agent: env.WS_PROXY && new SocksProxyAgent(env.WS_PROXY),
     });
     const client = new Client(profile, upstreamWs);
 
@@ -55,8 +55,6 @@ Bun.serve<WebSocketData>({
       if (client.initialized) return;
       client.startupPackets.push(event.data);
     });
-    upstreamWs.addEventListener("close", console.log)
-    upstreamWs.addEventListener("error", console.log)
 
     await new Promise((resolve) =>
       upstreamWs.addEventListener("open", resolve)
@@ -83,8 +81,7 @@ Bun.serve<WebSocketData>({
         await ws.data.client.onClientMessage(message);
     },
     close: async (ws) => ws.data.client.close(),
-    
   }, // handlers
 });
 
-console.log("Listening on " + env.PORT)
+console.log("Listening on " + env.PORT);
