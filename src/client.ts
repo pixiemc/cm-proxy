@@ -277,8 +277,8 @@ export class Client {
   }
 
   async close() {
-    await this.#redisPublisher.quit()
-    await this.#redisSubscriber.quit()
+    await this.#redisPublisher.quit();
+    await this.#redisSubscriber.quit();
   }
 
   getNextPacketId(packetMap: Record<number, string>) {

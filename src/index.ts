@@ -3,7 +3,6 @@ import { env } from "./env.js";
 import { generalHttpClient } from "./utils/http.js";
 import { WebSocket } from "ws";
 import { SocksProxyAgent } from "socks-proxy-agent";
-import { HttpsProxyAgent } from "https-proxy-agent";
 
 export let cosmeticIds = new Set<string>();
 
@@ -38,17 +37,17 @@ Bun.serve<WebSocketData>({
       "$1-$2-$3-$4-$5"
     );
 
-    const upstreamWs = new WebSocket("wss://connect.essential.gg/v1", {
-      // @ts-ignore - bun supports headers with websockets
-      headers: {
-        "essential-max-protocol-version": req.headers.get(
-          "essential-max-protocol-version"
-        ),
-        authorization: req.headers.get("authorization"),
-        "user-agent": req.headers.get("user-agent"),
-      },
-      agent: env.WS_PROXY && new HttpsProxyAgent(env.WS_PROXY),
-    });
+    const upstreamWs = new WebSocket(
+      env.WS_PROXY ?? "wss://connect.essential.gg/v1",
+      {
+        headers: {
+          "essential-max-protocol-version":
+            req.headers.get("essential-max-protocol-version") ?? undefined,
+          authorization: req.headers.get("authorization") ?? undefined,
+          "user-agent": req.headers.get("user-agent") ?? undefined,
+        },
+      }
+    );
     const client = new Client(profile, upstreamWs);
 
     upstreamWs.addEventListener("message", (event) => {
